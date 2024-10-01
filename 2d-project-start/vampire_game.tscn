@@ -1,0 +1,106 @@
+[gd_scene load_steps=6 format=3 uid="uid://bfp56lygvuqbq"]
+
+[ext_resource type="Script" path="res://vampire_game.gd" id="1_4vq4u"]
+[ext_resource type="PackedScene" uid="uid://cjg80fo8iqily" path="res://player.tscn" id="1_lst3v"]
+[ext_resource type="PackedScene" uid="uid://ytvmheyqo2sw" path="res://tree.tscn" id="2_hhgnd"]
+[ext_resource type="PackedScene" uid="uid://bqnjslxg2c5vr" path="res://mob.tscn" id="2_ih1hc"]
+
+[sub_resource type="Curve2D" id="Curve2D_8kphh"]
+_data = {
+"points": PackedVector2Array(0, 0, 0, 0, -179, -234, 0, 0, 0, 0, 2126, -235, 0, 0, 0, 0, 2125, 1239, 0, 0, 0, 0, -180, 1237, 0, 0, 0, 0, -180, 1048, 0, 0, 0, 0, -180, 1038, 0, 0, 0, 0, -180, 1027, 0, 0, 0, 0, -179, 1008, 0, 0, 0, 0, -179, -233, 0, 0, 0, 0, -180, 1008, 0, 0, 0, 0, -180, 1027)
+}
+point_count = 11
+
+[node name="Game" type="Node2D"]
+y_sort_enabled = true
+script = ExtResource("1_4vq4u")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+layer = -1
+
+[node name="ColorRect" type="ColorRect" parent="CanvasLayer"]
+offset_left = 5.0
+offset_top = 2.0
+offset_right = 1914.0
+offset_bottom = 1075.0
+metadata/_edit_use_anchors_ = true
+
+[node name="player" parent="." instance=ExtResource("1_lst3v")]
+position = Vector2(1038, 683)
+
+[node name="Path2D" type="Path2D" parent="player"]
+position = Vector2(-1038, -673)
+curve = SubResource("Curve2D_8kphh")
+
+[node name="PathFollow2D" type="PathFollow2D" parent="player/Path2D"]
+unique_name_in_owner = true
+position = Vector2(-179, -234)
+rotation = -0.000433839
+
+[node name="mob" parent="." instance=ExtResource("2_ih1hc")]
+position = Vector2(419, 242)
+
+[node name="tree" parent="." instance=ExtResource("2_hhgnd")]
+position = Vector2(379, 433)
+
+[node name="tree2" parent="." instance=ExtResource("2_hhgnd")]
+position = Vector2(378, 521)
+
+[node name="tree3" parent="." instance=ExtResource("2_hhgnd")]
+position = Vector2(376, 593)
+
+[node name="tree4" parent="." instance=ExtResource("2_hhgnd")]
+position = Vector2(752, 732)
+
+[node name="tree5" parent="." instance=ExtResource("2_hhgnd")]
+position = Vector2(1307, 468)
+
+[node name="tree6" parent="." instance=ExtResource("2_hhgnd")]
+position = Vector2(1649, 247)
+
+[node name="tree7" parent="." instance=ExtResource("2_hhgnd")]
+position = Vector2(1500, 339)
+
+[node name="tree8" parent="." instance=ExtResource("2_hhgnd")]
+position = Vector2(1697, 805)
+
+[node name="tree9" parent="." instance=ExtResource("2_hhgnd")]
+position = Vector2(1623, 817)
+
+[node name="tree10" parent="." instance=ExtResource("2_hhgnd")]
+position = Vector2(1668, 855)
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 0.5
+autostart = true
+
+[node name="game_over" type="CanvasLayer" parent="."]
+unique_name_in_owner = true
+visible = false
+
+[node name="ColorRect" type="ColorRect" parent="game_over"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.760784)
+
+[node name="Label" type="Label" parent="game_over/ColorRect"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -48.5
+offset_top = -13.0
+offset_right = 48.5
+offset_bottom = 13.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 181
+text = "GAME OVER!"
+
+[connection signal="health_depleted" from="player" to="." method="_on_player_health_depleted"]
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
